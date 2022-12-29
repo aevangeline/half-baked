@@ -7,12 +7,12 @@ CREATE TABLE users (
     given_name TEXT NOT NULL, -- the user's given name
     last_name TEXT, -- the user's last name
     honorific TEXT -- the user's title (Mx., Mys., etc.)
-) STRICT;
+);
 
 --- userexperiencesettings - stores all of the settings associated with a given user for the user interface
-create TABLE userexperiencesettings (
+CREATE TABLE userexperiencesettings (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
-    user_id INTEGER,
-    time_zone TEXT NOT NULL,
+    user_id INTEGER NOT NULL, --- foreign key reference to the user who owns this setting row
+    time_zone TEXT NOT NULL, --- the time zone where this user operates
     FOREIGN KEY(user_id) REFERENCES users(id)
-) STRICT;
+);
