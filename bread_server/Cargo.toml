@@ -8,17 +8,17 @@ name = "bread_server"
 path = "src/server.rs"
 
 [dependencies]
-tonic  = "^0.8"
+tonic  = "^0.8" # RPC server
 prost  = "^0.11"
-tokio  = { version = "1.0", features = ["macros", "rt-multi-thread"] }
-diesel = { version = "2.0.0", features = ["sqlite"] }
-dotenvy = "0.15"
-config = "^0.13"
-directories = "^4.0.0"
-chrono = "^0.4"
-chrono-tz = "^0.8.1"
-diesel_migrations = "^2.0.0"
-log = "^0.4"
+tokio  = { version = "1.0", features = ["macros", "rt-multi-thread"] } 
+diesel = { version = "2.0.0", features = ["sqlite"] } # SQL-ORM + SQLite support
+dotenvy = "0.15" # Read data from .env files
+directories = "^4.0.0" # Find all of our configuration/data directories
+chrono = "^0.4" # Datetime utilities
+chrono-tz = "^0.8.1" # Timezone utilities
+diesel_migrations = "^2.0.0" # Diesel Migrations so that we can keep our database schemas up to date
+log = "^0.4" # Simple Logging Utility
+figment = "^0.10" # Configuration Utility
 
 [build-dependencies]
 tonic-build = "0.8"
