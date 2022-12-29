@@ -1,31 +1,56 @@
+use diesel::prelude::*;
+use diesel::sqlite::SqliteConnection;
 /// database::startup - this module handles all of the database startup tasks that have to be run at program start
-use diesel_migrations::embed_migrations;
-use diesel::prelude::SQLiteConnection;
+use diesel_migrations::{embed_migrations, EmbeddedMigrations, MigrationHarness};
 use std::fs;
 use std::io::{Error, ErrorKind};
 use std::path::Path;
-/// MIGRATIONS is a compile-time pack-in of all pending migrations for this application, this will allow you to 
-pub const MIGRATIONS: EmbeddedMigrations = embed_migrations!();
+/// MIGRATIONS is a compile-time pack-in of all pending migrations for this application, this will allow you to
+const MIGRATIONS: EmbeddedMigrations = embed_migrations!();
 
-/// initialize_db - creates the db file if it doesn't already exist and run migrations
-/// Arguments 
-///     path : AsRef<Path> -> a path-like object which points
+/// initialize_db - creates the db file if it doesn't already exist and run migrations if we need to!
+/// Arguments
+///     db_path : AsRef<Path> -> a path-like object which points
 ///            to either an existing sqlite database OR a valid place we can create one
-pub fn initialize_db<P: AsRef<Path>>(db_path: P) -> Result<()> { 
+///
+pub fn initialize_db<P: AsRef<Path>>(db_path: P) -> Result<(), Error> {
     // if a file already exists, then we're all ok!
-    if (db_path.is_file()){
-        return Ok(());
-    }
-    // if something else is there besides a file, we have a problem and have to bail out
-    if(db_path.exists()){
-        return Err(Error(ErrorKind::InvalidFilename));
-    }
+    let p = db_path.as_ref();
 
-    // try to create the path that the db file will live under
-    fs::create_dir_all(db_path.parent())?;
-    // create a connection the database, and if it doesn't exist then Sqlite will make one
-    let conn = SQLiteConnection::establish(db_path)?;
-    // run any migrations that need to be processsed on the db
-    conn.run_pending_migrations(MIGRATIONS)?;
+    // try to fish out a parent directory for the target db file
+    let _ = p
+        .parent()
+        .ok_or(Error::new(
+            ErrorKind::InvalidInput,
+            format!("cannot find a containing directory for the db : {:?}", p),
+        ))
+        .map(|parent| fs::create_dir_all(parent))?; // Try to create the containing directory for our database, return an error if we fail
+
+    // we have to convert the Path to a string to use it with diesel to create a connection
+    let mut conn = p
+        .to_str()
+        .ok_or(Error::new(
+            ErrorKind::NotFound,
+            format!(
+                "cannot create a string version of the path to the db : {:?}",
+                p
+            ),
+        ))
+        .and_then(|path| {
+            SqliteConnection::establish(path) // We try to create the connection here and fail over into an io:Error if we can't
+                .or_else(|_| {
+                    Err(Error::new(
+                        ErrorKind::InvalidInput,
+                        format!("cannot create or connect to db : {:?}", p),
+                    ))
+                })
+        })?;
+    conn.run_pending_migrations(MIGRATIONS).or_else(|_| {
+        Err(Error::new(
+            ErrorKind::InvalidInput,
+            format!("migrations failed on db! : {:?}", p),
+        ))
+    })?;
+
     return Ok(());
 }
