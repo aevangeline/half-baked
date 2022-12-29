@@ -22,5 +22,5 @@ pub struct User {
 pub struct UserExperienceSettings {
     pub id: i64, // unique id for this user's batch of settings
     pub user_id: i64, // user_id that tells us whose settings these are
-    pub time_zone: String, // this application manages all date
+    pub time_zone: String, // this application manages all date-times in UTC but then displays everything in local time so we need to store tz
 }

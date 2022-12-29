@@ -16,7 +16,9 @@ dotenvy = "0.15"
 config = "^0.13"
 directories = "^4.0.0"
 chrono = "^0.4"
-chrono_tz = "^0.81"
+chrono-tz = "^0.8.1"
+diesel_migrations = "^2.0.0"
+log = "^0.4"
 
 [build-dependencies]
 tonic-build = "0.8"

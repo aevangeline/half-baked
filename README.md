@@ -6,5 +6,7 @@ This is a personal project that maybe will blossom into more. The primary goals 
 - To provide a simple and high-quality code-base that is easy to maintain, portable, open source, and a good platform for people to learn open source culture/contribution models (myself included!)
 
 
-Design Principles 
-- 
+Engineering Principles 
+- Using high quality tools is more fun!
+- Easy to understand > Clever
+- Do It Right The First Time
