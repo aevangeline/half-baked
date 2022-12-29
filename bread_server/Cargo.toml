@@ -19,6 +19,7 @@ chrono-tz = "^0.8.1" # Timezone utilities
 diesel_migrations = "^2.0.0" # Diesel Migrations so that we can keep our database schemas up to date
 log = "^0.4" # Simple Logging Utility
 figment = "^0.10" # Configuration Utility
+moka = "^0.9" # Caching library
 
 [build-dependencies]
 tonic-build = "0.8"
