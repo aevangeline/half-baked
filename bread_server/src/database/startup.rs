@@ -38,18 +38,17 @@ pub fn initialize_db<P: AsRef<Path>>(db_path: P) -> Result<(), Error> {
         ))
         .and_then(|path| {
             SqliteConnection::establish(path) // We try to create the connection here and fail over into an io:Error if we can't
-                .or_else(|_| {
-                    Err(Error::new(
+                .map_err(|_| {
+                    Error::new(
                         ErrorKind::InvalidInput,
                         format!("cannot create or connect to db : {:?}", p),
-                    ))
+                    )
                 })
         })?;
-    conn.run_pending_migrations(MIGRATIONS).or_else(|_| {
-        Err(Error::new(
+    conn.run_pending_migrations(MIGRATIONS).map_err(|_| {
+        Error::new(
             ErrorKind::InvalidInput,
-            format!("migrations failed on db! : {:?}", p),
-        ))
+            format!("migrations failed on db! : {:?}", p))
     })?;
 
     return Ok(());
