@@ -20,22 +20,26 @@ pub fn initialize_db<P: AsRef<Path>>(db_path: P) -> Result<(), Error> {
     // try to fish out a parent directory for the target db file
     let _ = p
         .parent()
-        .ok_or(Error::new(
-            ErrorKind::InvalidInput,
-            format!("cannot find a containing directory for the db : {:?}", p),
-        ))
-        .map(|parent| fs::create_dir_all(parent))?; // Try to create the containing directory for our database, return an error if we fail
+        .ok_or_else(|| {
+            Error::new(
+                ErrorKind::InvalidInput,
+                format!("cannot find a containing directory for the db : {:?}", p),
+            )
+        })
+        .map(fs::create_dir_all)?; // Try to create the containing directory for our database, return an error if we fail
 
     // we have to convert the Path to a string to use it with diesel to create a connection
     let mut conn = p
         .to_str()
-        .ok_or(Error::new(
-            ErrorKind::NotFound,
-            format!(
-                "cannot create a string version of the path to the db : {:?}",
-                p
-            ),
-        ))
+        .ok_or_else(|| {
+            Error::new(
+                ErrorKind::NotFound,
+                format!(
+                    "cannot create a string version of the path to the db : {:?}",
+                    p
+                ),
+            )
+        })
         .and_then(|path| {
             SqliteConnection::establish(path) // We try to create the connection here and fail over into an io:Error if we can't
                 .map_err(|_| {
@@ -48,8 +52,9 @@ pub fn initialize_db<P: AsRef<Path>>(db_path: P) -> Result<(), Error> {
     conn.run_pending_migrations(MIGRATIONS).map_err(|_| {
         Error::new(
             ErrorKind::InvalidInput,
-            format!("migrations failed on db! : {:?}", p))
+            format!("migrations failed on db! : {:?}", p),
+        )
     })?;
 
-    return Ok(());
+    Ok(())
 }

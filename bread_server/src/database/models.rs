@@ -1,11 +1,10 @@
+use crate::database::schema::categories;
+use chrono::NaiveDateTime;
 /// models.rs - this is where the basic datamodels used by half-baked
 /// for half-baked, we've decided to use a pretty simple set of diesel models that are queryable
 /// these models should NOT be complex since this app is focused on simplicity & extensibility
 // load up the diesel model with all the goodies that we need
 use diesel::prelude::*;
-use chrono::NaiveDateTime;
-use crate::database::schema::categories;
-
 
 /// User - a user is a specific person who has a local instance of half-baked running
 /// have some basic information about them that we can use to configure their experience
@@ -31,8 +30,8 @@ pub struct UserExperienceSettings {
 /// for now, there is a 1:Many relationship between a user and todos, as such you can't have floating todos with no assignee or multiple assignees
 #[derive(Queryable, PartialEq, Clone)]
 pub struct ToDo {
-    pub id: i64, // unique id for this todo item
-    pub user_id: i64, // user_id that tells us whose todo this is
+    pub id: i64,                          // unique id for this todo item
+    pub user_id: i64,                     // user_id that tells us whose todo this is
     pub headline: String, // the headline for this todo, what are we actually doing with this todo
     pub goal_time: Option<NaiveDateTime>, // when we want to get this todo item done by
     pub priority: Option<i64>, // how important is this todo? lower is more important
@@ -44,13 +43,13 @@ pub struct ToDo {
 /// there is a 1:Many relationship between a user and an event, so each event is something that belongs to a specific user
 #[derive(Queryable, PartialEq, Clone)]
 pub struct Event {
-    pub id: i64, //unique id for this event
-    pub user_id: i64, // user_id that tells us whose event this is
-    pub headline: String, // what the name of this event
-    pub start_time: NaiveDateTime, // when the event actually starts
-    pub end_time: NaiveDateTime, // when the event ends
+    pub id: i64,                     //unique id for this event
+    pub user_id: i64,                // user_id that tells us whose event this is
+    pub headline: String,            // what the name of this event
+    pub start_time: NaiveDateTime,   // when the event actually starts
+    pub end_time: NaiveDateTime,     // when the event ends
     pub description: Option<String>, // what is the description of this event
-    pub category_id: Option<i64>, // what (if any) category is this event filed under
+    pub category_id: Option<i64>,    // what (if any) category is this event filed under
     pub external: bool, // did this event come from half-baked, or is it externally sourced
 }
 
@@ -59,8 +58,8 @@ pub struct Event {
 #[derive(Queryable, PartialEq, Clone, Debug)]
 #[diesel(table_name = categories )]
 pub struct Category {
-    pub id: i64, // unique id for this event
-    pub user_id: i64, // user_id tells us whose category this is
-    pub name: String, // what is the name of this category
+    pub id: i64,                     // unique id for this event
+    pub user_id: i64,                // user_id tells us whose category this is
+    pub name: String,                // what is the name of this category
     pub description: Option<String>, // a description for this category
 }

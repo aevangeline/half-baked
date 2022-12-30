@@ -4,5 +4,5 @@ pub mod models;
 pub mod startup;
 
 // here's all our testing modules!
-mod startup_test;
 mod schema;
+mod startup_test;
