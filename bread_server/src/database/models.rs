@@ -36,7 +36,7 @@ pub struct ToDo {
     pub goal_time: Option<NaiveDateTime>, // when we want to get this todo item done by
     pub priority: Option<i64>, // how important is this todo? lower is more important
     pub category_id: Option<i64>, // what (if any) category is this todo filed under
-    pub external: bool, // did this ToDo come from half-baked or is it imported from another program
+    pub external_source_id: Option<i64>, // did this ToDo come from half-baked or is it imported from another program
 }
 
 /// Event -- these represent calendar events, with a begin and end time.
@@ -50,16 +50,26 @@ pub struct Event {
     pub end_time: NaiveDateTime,     // when the event ends
     pub description: Option<String>, // what is the description of this event
     pub category_id: Option<i64>,    // what (if any) category is this event filed under
-    pub external: bool, // did this event come from half-baked, or is it externally sourced
+    pub external_source_id: Option<i64>, // did this event come from half-baked, or is it externally sourced
 }
 
 /// Category -- these are categories that you can optionally use to label events and todos
 /// 1:Many with users table, each user has their own categories for their calendar
-#[derive(Queryable, PartialEq, Clone, Debug)]
+#[derive(Queryable, PartialEq, Clone)]
 #[diesel(table_name = categories )]
 pub struct Category {
     pub id: i64,                     // unique id for this event
     pub user_id: i64,                // user_id tells us whose category this is
     pub name: String,                // what is the name of this category
     pub description: Option<String>, // a description for this category
+}
+
+/// ExternalSource - this is a table that lists where we source external events, todos, and other data bits
+#[derive(Queryable, PartialEq, Clone)]
+pub struct ExternalSource {
+    pub id: i64, // unique id for this external data source
+    pub user_id: i64, // unique user_id who owns this source
+    pub typ: String, // what type of source is this?
+    pub access_token: Option<String>, // unique access token used to acess this source
+    pub user_name: Option<String>, // the user name (if needed) to access this resource
 }
