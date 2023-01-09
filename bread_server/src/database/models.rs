@@ -1,4 +1,3 @@
-use crate::database::schema::categories;
 use chrono::NaiveDateTime;
 /// models.rs - this is where the basic datamodels used by half-baked
 /// for half-baked, we've decided to use a pretty simple set of diesel models that are queryable
@@ -43,13 +42,13 @@ pub struct ToDo {
 /// there is a 1:Many relationship between a user and an event, so each event is something that belongs to a specific user
 #[derive(Queryable, PartialEq, Clone)]
 pub struct Event {
-    pub id: i64,                     //unique id for this event
-    pub user_id: i64,                // user_id that tells us whose event this is
-    pub headline: String,            // what the name of this event
-    pub start_time: NaiveDateTime,   // when the event actually starts
-    pub end_time: NaiveDateTime,     // when the event ends
-    pub description: Option<String>, // what is the description of this event
-    pub category_id: Option<i64>,    // what (if any) category is this event filed under
+    pub id: i64,                         //unique id for this event
+    pub user_id: i64,                    // user_id that tells us whose event this is
+    pub headline: String,                // what the name of this event
+    pub start_time: NaiveDateTime,       // when the event actually starts
+    pub end_time: NaiveDateTime,         // when the event ends
+    pub description: Option<String>,     // what is the description of this event
+    pub category_id: Option<i64>,        // what (if any) category is this event filed under
     pub external_source_id: Option<i64>, // did this event come from half-baked, or is it externally sourced
 }
 
@@ -67,10 +66,10 @@ pub struct Category {
 /// ExternalSource - this is a table that lists where we source external events, todos, and other data bits
 #[derive(Queryable, PartialEq, Clone)]
 pub struct ExternalSource {
-    pub id: i64, // unique id for this external data source
-    pub user_id: i64, // unique user_id who owns this source
-    pub typ: String, // what type of source is this?
+    pub id: i64,                      // unique id for this external data source
+    pub user_id: i64,                 // unique user_id who owns this source
+    pub typ: String,                  // what type of source is this?
     pub access_token: Option<String>, // unique access token used to acess this source
-    pub user_name: Option<String>, // the user name (if needed) to access this resource
-    pub source_uri: String, // where is this external source located?
+    pub user_name: Option<String>,    // the user name (if needed) to access this resource
+    pub source_uri: String,           // where is this external source located?
 }

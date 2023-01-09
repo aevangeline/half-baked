@@ -33,5 +33,5 @@ jelly_ui/pubspec.lock
 *.js.deps
 *.js.map
 
-.flutter-plugins
-.flutter-plugins-dependencies
+jelly_ui/.flutter-plugins
+jelly_ui/.flutter-plugins-dependencies

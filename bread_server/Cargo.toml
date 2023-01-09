@@ -14,7 +14,7 @@ directories = "^4.0.0" # Find all of our configuration/data directories
 chrono = "^0.4" # Datetime utilities
 chrono-tz = "^0.8.1" # Timezone utilities
 diesel_migrations = "^2.0.0" # Diesel Migrations so that we can keep our database schemas up to date
-log = "^0.4" # Simple Logging Utility
+log = "^0.4" # Simple Logging Facade
 figment = "^0.10" # Configuration Utility
 moka = "^0.9" # Caching library
 ical = "0.7" # ical parsing
@@ -23,6 +23,7 @@ interprocess = {version = "^1.2", features = ["tokio_support"]} # interprocess c
 tokio = { version = "^1.23", features = ["full"] } # asynchronous application framework
 prost = "^0.11" # protocol buffers for rust
 bytes = "^1" # byte manipulation library
+env_logger = "^0.10" # logging implementation
 
 [build-dependencies]
 prost-build = {version = "^0.11"} # build our protobufs

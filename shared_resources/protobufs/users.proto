@@ -1,0 +1,16 @@
+/**
+* users.proto - defines the way that we access information about users
+*/
+syntax = "proto3";
+
+message User {
+    int64 id = 1; // the id for the user
+}
+
+message GetUsersRequest {
+
+}
+
+message GetUsersResponse {
+
+}
