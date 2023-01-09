@@ -72,4 +72,5 @@ pub struct ExternalSource {
     pub typ: String, // what type of source is this?
     pub access_token: Option<String>, // unique access token used to acess this source
     pub user_name: Option<String>, // the user name (if needed) to access this resource
+    pub source_uri: String, // where is this external source located?
 }
