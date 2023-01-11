@@ -11,13 +11,15 @@ pub fn connect_to_db() -> Result<(), io::Error> {
     if let Some(base_dirs) = BaseDirs::new() {
         let db_path = base_dirs.data_dir().join("half-baked/development.db");
         database::startup::initialize_db(db_path);
-        log
+        log::info!("Connected to DB @ {}", db_path);
     }
+    log::error!("No available system-defined data directory, cannot open database");
     Err(Error::from(ErrorKind::NotFound))
 }
 
 /// setups up the logger for the package
 pub fn setup_logger() {
     let mut builder = env_logger::Builder::new().filter_level(LevelFilter::Warn);
+    log::info!("Initialized Logging");
     builder.init();
 }
