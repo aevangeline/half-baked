@@ -11,7 +11,10 @@ pub fn connect_to_db() -> Result<(), io::Error> {
     if let Some(base_dirs) = BaseDirs::new() {
         let db_path = base_dirs.data_dir().join("half-baked/development.db");
         database::startup::initialize_db(db_path);
-        log::info!("Connected to DB @ {}", db_path);
+        log::info!(
+            "Connected to DB @ {}",
+            db_path.to_str().unwrap_or("No Path Found")
+        );
     }
     log::error!("No available system-defined data directory, cannot open database");
     Err(Error::from(ErrorKind::NotFound))
