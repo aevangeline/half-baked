@@ -2,8 +2,6 @@
 pub mod database;
 pub mod service;
 use directories::BaseDirs;
-use env_logger;
-use log;
 use log::LevelFilter;
 use std::io;
 use std::io::{Error, ErrorKind};

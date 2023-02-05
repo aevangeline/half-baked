@@ -5,4 +5,7 @@ pub mod bread_service {
 }
 
 /// load key structures we injected into our sub-namespace into our main namespace
-use bread_service::{GetUsersRequest, GetUsersResponse};
+use bread_service::{
+    bread_service_server::{BreadService, BreadServiceServer},
+    GetUsersRequest, GetUsersResponse,
+};
