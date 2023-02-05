@@ -1,7 +1,11 @@
-fn main() -> Result<()> {
-    prost_build::compile_protos(
-        &["../shared_resources/protobufs/rpc.proto"],
-        &["../shared_resources/protobufs"],
-    )?;
-    Ok(())
+fn main() {
+    tonic_build::configure()
+        .build_client(false)
+        .build_server(true)
+        .build_transport(true)
+        .compile(
+            &["../shared_resources/protobufs/bread_service.proto"],
+            &["../shared_resources/protobufs"],
+        )
+        .unwrap_or_else(|e| panic!("protobuf compilation failed: {}", e))
 }

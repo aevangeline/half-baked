@@ -2,6 +2,7 @@
 name = "bread_server"
 version = "0.1.0"
 edition = "2021"
+build = "src/build.rs"
 
 [[bin]]
 name = "bread_server"
@@ -19,11 +20,12 @@ figment = "^0.10" # Configuration Utility
 moka = "^0.9" # Caching library
 ical = "0.7" # ical parsing
 serde = "^1.0" #serialization/derialization support
-interprocess = {version = "^1.2", features = ["tokio_support"]} # interprocess communication library
+interprocess = { version = "^1.2", features = ["tokio_support"]} # interprocess communication library
 tokio = { version = "^1.23", features = ["full"] } # asynchronous application framework
 prost = "^0.11" # protocol buffers for rust
 bytes = "^1" # byte manipulation library
 env_logger = "^0.10" # logging implementation
+tonic = "^0.8" # rpc framework for rust 
 
 [build-dependencies]
-prost-build = {version = "^0.11"} # build our protobufs
+tonic-build = {version = "^0.8", features = ["prost"]} # build our protobufs

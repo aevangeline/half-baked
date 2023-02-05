@@ -25,7 +25,7 @@ pub struct UserExperienceSettings {
     pub time_zone: String, // this application manages all date-times in UTC but then displays everything in local time so we need to store tz
 }
 
-/// ToDo -- these represent ToDo that a user wants to complete, maybe with some sort of target completion date and a priority
+/// ToDo these represent ToDo that a user wants to complete, maybe with some sort of target completion date and a priority
 /// for now, there is a 1:Many relationship between a user and todos, as such you can't have floating todos with no assignee or multiple assignees
 #[derive(Queryable, PartialEq, Clone)]
 pub struct ToDo {

@@ -2,22 +2,23 @@
 ** rpc.proto - defines the way that we access information about half-baked
 **/
 syntax = "proto3";
+package bread_service;
 
 message User {
     int64 id = 1; // the id for the user
     string given_name = 2; // the given name for this user
-    optional string last_name = 3; // the last name for this users\
-    optional string honorific = 4; // the honorific that this user prefers
+    string last_name = 3; // the last name for this users\
+    string honorific = 4; // the honorific that this user prefers
+}
+
+service BreadService {
+    rpc GetUsers(GetUsersRequest) returns (GetUsersResponse) {}
 }
 
 message GetUsersRequest {
     repeated int64 id = 1; 
 }
 
-message GetUserResponse {
+message GetUsersResponse {
     repeated User users = 1;
-}
-
-service BreadService {
-    rpc GetUsers(GetUsersRequest) returns (GetUserResponse);
 }

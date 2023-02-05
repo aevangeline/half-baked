@@ -1,5 +1,6 @@
 /// lib.rs - this contains the top-level logic of half-baked's server, and handles setup, shutdown, and all the other admin tasks
 pub mod database;
+pub mod service;
 use directories::BaseDirs;
 use env_logger;
 use log;
